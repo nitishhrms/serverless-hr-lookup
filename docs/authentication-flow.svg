@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="680" viewBox="0 0 1200 680">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L10,3 L0,6 Z" fill="#334155"/></marker>
+    <style>.box{fill:#f8fafc;stroke:#1e3a8a;stroke-width:2;rx:14}.secure{fill:#eff6ff;stroke:#2563eb;stroke-width:2;rx:14}.title{font:700 22px Arial;fill:#0f172a}.label{font:600 17px Arial;fill:#0f172a}.small{font:14px Arial;fill:#475569}.line{stroke:#334155;stroke-width:2.5;fill:none;marker-end:url(#arrow)}.dashed{stroke:#2563eb;stroke-width:2;stroke-dasharray:8 6;fill:none;marker-end:url(#arrow)}</style>
+  </defs>
+  <rect width="1200" height="680" fill="white"/>
+  <text x="600" y="42" text-anchor="middle" class="title">Cognito OAuth 2.0 Authorization Code and PKCE Flow</text>
+
+  <rect x="60" y="125" width="210" height="120" class="box"/><text x="165" y="167" text-anchor="middle" class="label">Browser</text><text x="165" y="195" text-anchor="middle" class="small">SecureHR SPA</text><text x="165" y="219" text-anchor="middle" class="small">Creates verifier</text>
+  <rect x="330" y="125" width="210" height="120" class="secure"/><text x="435" y="167" text-anchor="middle" class="label">Cognito Login</text><text x="435" y="195" text-anchor="middle" class="small">Managed Login</text><text x="435" y="219" text-anchor="middle" class="small">Authenticates user</text>
+  <rect x="600" y="125" width="210" height="120" class="secure"/><text x="705" y="167" text-anchor="middle" class="label">Authorization Code</text><text x="705" y="195" text-anchor="middle" class="small">Returned to callback</text><text x="705" y="219" text-anchor="middle" class="small">PKCE challenge checked</text>
+  <rect x="870" y="125" width="270" height="120" class="secure"/><text x="1005" y="167" text-anchor="middle" class="label">Cognito Token Endpoint</text><text x="1005" y="195" text-anchor="middle" class="small">Code + verifier exchange</text><text x="1005" y="219" text-anchor="middle" class="small">Returns ID token to browser</text>
+  <path d="M270 185 L330 185" class="line"/><path d="M540 185 L600 185" class="line"/><path d="M810 185 L870 185" class="line"/>
+
+  <rect x="170" y="390" width="250" height="115" class="box"/><text x="295" y="431" text-anchor="middle" class="label">Browser with ID Token</text><text x="295" y="459" text-anchor="middle" class="small">Authorization: Bearer token</text><text x="295" y="483" text-anchor="middle" class="small">Calls employee API</text>
+  <rect x="475" y="390" width="250" height="115" class="secure"/><text x="600" y="431" text-anchor="middle" class="label">API Gateway</text><text x="600" y="459" text-anchor="middle" class="small">Cognito authorizer</text><text x="600" y="483" text-anchor="middle" class="small">Accepts or rejects token</text>
+  <rect x="780" y="390" width="250" height="115" class="box"/><text x="905" y="431" text-anchor="middle" class="label">Backend Lambda</text><text x="905" y="459" text-anchor="middle" class="small">Runs only after</text><text x="905" y="483" text-anchor="middle" class="small">successful authorization</text>
+  <path d="M1005 245 C1005 315 295 315 295 390" class="dashed"/><text x="610" y="303" text-anchor="middle" class="small">ID token returned to browser</text>
+  <path d="M420 447 L475 447" class="line"/><path d="M725 447 L780 447" class="line"/>
+  <text x="600" y="585" text-anchor="middle" class="small">No valid token: API Gateway returns HTTP 401 and employee data is not returned.</text>
+</svg>
