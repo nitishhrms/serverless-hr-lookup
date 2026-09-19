@@ -69,8 +69,8 @@ Evidence status: all required screenshots are organized in the final submission 
 | `screenshots/01-cognito-users.png` | Cognito users and confirmation status |
 | `screenshots/02-public-ui.png` | Public HTTPS application page |
 | `screenshots/03-cognito-login.png` | Cognito Managed Login page and OAuth parameters |
-| `screenshots/04-successful-login.png` | Successful Cognito sign-in *(retake with URL bar)* |
-| `screenshots/05-valid-employee-1001.png` | Valid employee lookup *(retake with URL bar)* |
+| `screenshots/04-successful-login.png` | Successful Cognito sign-in with URL bar |
+| `screenshots/05-valid-employee-1001.png` | Valid employee lookup with URL bar |
 | `screenshots/06-student-employee-1005.png` | Student name and IAM ARN |
 | `screenshots/07-invalid-employee-99999.png` | `Employee not found` behavior |
 | `screenshots/08-unauthorized-api.png` | API rejects request without a token |

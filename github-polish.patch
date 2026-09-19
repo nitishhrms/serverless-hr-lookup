@@ -1,0 +1,104 @@
+diff --git a/README.md b/README.md
+index 4715c99..80562bb 100644
+--- a/README.md
++++ b/README.md
+@@ -1,13 +1,68 @@
+-# SecureHR Assignment Evidence
++# SecureHR Serverless HR Lookup
+ 
+-This folder contains the Functional Specification, architecture diagrams, API export, and organized AWS screenshots for the Serverless HR Lookup Application.
++An authenticated serverless employee lookup application built with Amazon API Gateway, AWS Lambda, Amazon DynamoDB, Amazon Cognito, and AWS IAM.
+ 
+-## Before submission
++## Architecture
+ 
+-1. Push the final documentation and screenshots to GitHub.
+-2. Submit the GitHub link and PDF/evidence through Canvas.
+-3. Keep the AWS resources until the instructor has accepted the evidence, then clean them up if required.
++- `GET /` is a public API Gateway route connected to `hr-ui-function`.
++- `GET /employee/{id}` is protected by the `SecureHRAuthorizer` Cognito authorizer.
++- The backend Lambda uses `HRBackendLambdaRole` to perform a least-privilege `dynamodb:GetItem` lookup in the `Employees` table.
++- The browser never accesses DynamoDB directly.
+ 
+-The Cognito user `sub` is recorded in the Functional Specification as `24b88468-2061-7078-20b0-97ee47d4926c`.
++See [`docs/architecture-diagram.svg`](docs/architecture-diagram.svg) and [`docs/authentication-flow.svg`](docs/authentication-flow.svg).
+ 
+-Source repository: https://github.com/nitishhrms/serverless-hr-lookup
++## AWS resources
++
++| Resource | Value |
++|---|---|
++| API Gateway | `serverless-hr-api`, stage `prod` |
++| Application URL | https://ioy99699v8.execute-api.us-east-1.amazonaws.com/prod |
++| UI Lambda | `hr-ui-function` |
++| Backend Lambda | `hr-backend-lookup` |
++| DynamoDB table | `Employees`, partition key `EmployeeID` |
++| Cognito User Pool | `us-east-1_yLlaBkBX6` |
++| Managed Login domain | `https://us-east-1yllabkbx6.auth.us-east-1.amazoncognito.com` |
++
++## Deployment summary
++
++1. Create the `Employees` DynamoDB table with `EmployeeID` as a String partition key.
++2. Insert employee records, including student record `1005`.
++3. Create the IAM policy allowing only `dynamodb:GetItem` on `Employees`.
++4. Attach the policy to the Lambda execution role `HRBackendLambdaRole`.
++5. Deploy `hr-backend-lookup` and `hr-ui-function`.
++6. Create API Gateway resources and Lambda proxy integrations.
++7. Create the Cognito User Pool, public client, Managed Login domain, and PKCE callback URL.
++8. Create the Cognito authorizer and protect `GET /employee/{id}`.
++9. Deploy the API to the `prod` stage.
++
++## Testing
++
++| Test | Expected result |
++|---|---|
++| Open the application URL | UI loads over HTTPS |
++| Sign in through Cognito | User authenticates successfully |
++| Search `1001` | Alice Chan record is displayed |
++| Search `1005` | Nitish Kumar and the student IAM ARN are displayed |
++| Search `99999` | `Employee not found` is displayed |
++| Call `/employee/1001` without a token | API returns `401 Unauthorized` |
++
++Detailed evidence is in [`screenshots/`](screenshots/) and [`docs/`](docs/).
++
++## Repository contents
++
++- `backend/`: backend Lambda source
++- `ui/`: UI Lambda source
++- `docs/`: Functional Specification, diagrams, API export, and AI assistance record
++- `screenshots/`: AWS configuration and test evidence
++
++## Security notes
++
++Do not commit AWS access keys, secret keys, passwords, client secrets, authorization codes, or tokens. The Cognito client is public and uses PKCE; it does not contain a client secret.
++
++## Cleanup
++
++After submission and instructor approval, remove assignment-only API Gateway, Lambda, DynamoDB, Cognito, IAM, and EC2 resources to avoid unnecessary charges.
++
++## Author
++
++Nitish Kumar — https://github.com/nitishhrms/serverless-hr-lookup
+diff --git a/docs/Functional_Specification.md b/docs/Functional_Specification.md
+index d7f6036..9987c68 100644
+--- a/docs/Functional_Specification.md
++++ b/docs/Functional_Specification.md
+@@ -69,8 +69,8 @@ Evidence status: all required screenshots are organized in the final submission
+ | `screenshots/01-cognito-users.png` | Cognito users and confirmation status |
+ | `screenshots/02-public-ui.png` | Public HTTPS application page |
+ | `screenshots/03-cognito-login.png` | Cognito Managed Login page and OAuth parameters |
+-| `screenshots/04-successful-login.png` | Successful Cognito sign-in *(retake with URL bar)* |
+-| `screenshots/05-valid-employee-1001.png` | Valid employee lookup *(retake with URL bar)* |
++| `screenshots/04-successful-login.png` | Successful Cognito sign-in with URL bar |
++| `screenshots/05-valid-employee-1001.png` | Valid employee lookup with URL bar |
+ | `screenshots/06-student-employee-1005.png` | Student name and IAM ARN |
+ | `screenshots/07-invalid-employee-99999.png` | `Employee not found` behavior |
+ | `screenshots/08-unauthorized-api.png` | API rejects request without a token |
+diff --git a/docs/ai-tools.md.docx b/docs/ai-tools.md.docx
+deleted file mode 100644
+index 4199c7f..0000000
+Binary files a/docs/ai-tools.md.docx and /dev/null differ
+diff --git a/docs/~$-tools.md.docx b/docs/~$-tools.md.docx
+deleted file mode 100644
+index 1a5cdaf..0000000
+Binary files a/docs/~$-tools.md.docx and /dev/null differ
