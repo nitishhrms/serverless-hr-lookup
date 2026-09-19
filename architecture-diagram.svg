@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L10,3 L0,6 Z" fill="#334155"/></marker>
+    <style>
+      .box{fill:#f8fafc;stroke:#1e3a8a;stroke-width:2;rx:14}.secure{fill:#eff6ff;stroke:#2563eb;stroke-width:2;rx:14}.data{fill:#ecfdf5;stroke:#047857;stroke-width:2;rx:14}
+      .title{font:700 22px Arial;fill:#0f172a}.label{font:600 17px Arial;fill:#0f172a}.small{font:14px Arial;fill:#475569}.line{stroke:#334155;stroke-width:2.5;fill:none;marker-end:url(#arrow)}.dashed{stroke:#2563eb;stroke-width:2;stroke-dasharray:8 6;fill:none;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="1200" height="760" fill="white"/>
+  <text x="600" y="42" text-anchor="middle" class="title">Serverless HR Lookup Application Architecture</text>
+
+  <rect x="470" y="75" width="260" height="88" class="box"/>
+  <text x="600" y="111" text-anchor="middle" class="label">User Browser</text><text x="600" y="138" text-anchor="middle" class="small">HTTPS SecureHR interface</text>
+  <rect x="440" y="220" width="320" height="100" class="box"/>
+  <text x="600" y="257" text-anchor="middle" class="label">API Gateway REST API</text><text x="600" y="284" text-anchor="middle" class="small">serverless-hr-api / prod</text><text x="600" y="307" text-anchor="middle" class="small">Routes GET / and GET /employee/{id}</text>
+  <path d="M600 163 L600 220" class="line"/>
+
+  <rect x="80" y="400" width="280" height="100" class="box"/>
+  <text x="220" y="437" text-anchor="middle" class="label">UI Lambda</text><text x="220" y="464" text-anchor="middle" class="small">hr-ui-function</text><text x="220" y="487" text-anchor="middle" class="small">GET / returns HTML/CSS/JS</text>
+  <path d="M520 320 L300 400" class="line"/><text x="365" y="350" class="small">GET /</text>
+
+  <rect x="460" y="400" width="280" height="100" class="secure"/>
+  <text x="600" y="437" text-anchor="middle" class="label">Cognito Authorizer</text><text x="600" y="464" text-anchor="middle" class="small">SecureHRAuthorizer</text><text x="600" y="487" text-anchor="middle" class="small">Validates Bearer ID token</text>
+  <path d="M600 320 L600 400" class="line"/><text x="615" y="360" class="small">GET /employee/{id}</text>
+
+  <rect x="840" y="400" width="280" height="100" class="box"/>
+  <text x="980" y="437" text-anchor="middle" class="label">Backend Lambda</text><text x="980" y="464" text-anchor="middle" class="small">hr-backend-lookup</text><text x="980" y="487" text-anchor="middle" class="small">Runs only after authorization</text>
+  <path d="M740 450 L840 450" class="line"/>
+
+  <rect x="840" y="600" width="280" height="90" class="data"/>
+  <text x="980" y="636" text-anchor="middle" class="label">DynamoDB</text><text x="980" y="663" text-anchor="middle" class="small">Employees table</text>
+  <path d="M980 500 L980 600" class="line"/>
+
+  <rect x="80" y="600" width="280" height="90" class="secure"/>
+  <text x="220" y="636" text-anchor="middle" class="label">IAM Execution Role</text><text x="220" y="663" text-anchor="middle" class="small">dynamodb:GetItem only</text>
+  <path d="M360 645 L840 645" class="dashed"/><text x="545" y="630" class="small">permission granted to backend Lambda</text>
+
+  <rect x="80" y="220" width="280" height="100" class="secure"/>
+  <text x="220" y="257" text-anchor="middle" class="label">Cognito User Pool</text><text x="220" y="284" text-anchor="middle" class="small">Managed Login</text><text x="220" y="307" text-anchor="middle" class="small">OAuth 2.0 + PKCE</text>
+  <path d="M360 270 L440 270" class="dashed"/>
+</svg>
